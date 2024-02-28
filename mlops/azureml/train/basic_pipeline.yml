@@ -1,0 +1,38 @@
+$schema: https://azuremlschemas.azureedge.net/latest/pipelineJob.schema.json
+type: pipeline
+experiment_name: basic_job_training
+description: Basic Training Pipeline
+
+# # <inputs_and_outputs>
+# inputs:
+#   input:
+#     type: uri_file
+#     path: azureml:taxi-data@latest
+#   enable_monitoring: 'false'
+#   table_name: 'taximonitoring'
+
+# outputs:
+#   train_data:
+#   val_data:
+#   test_data:
+#   trained_model:
+#   evaluation_output:
+#   model_info_output_path:
+# # </inputs_and_outputs>
+
+# <jobs>
+settings:
+  default_datastore: azureml:workspaceblobstore
+  default_compute: azureml:cpu-cluster
+  continue_on_step_failure: false
+
+jobs:
+  pipeline:
+    name: basic_train
+    display_name: basic-train
+    code: ../../../Basic_job
+    command: >-
+      python main.py
+    environment: azureml:basic-train-env@latest
+
+# </jobs>
