@@ -25,16 +25,16 @@ jobs:
     uses: Azure/mlops-templates/.github/workflows/read-yaml.yml@main
     with:
       file_name: ${{ needs.set-env-branch.outputs.config-file}}
-  register-environment:
-    needs: get-config
-    uses: Azure/mlops-templates/.github/workflows/register-environment.yml@main
-    with:
-      resource_group: ${{ needs.get-config.outputs.resource_group }}
-      workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-      environment_file: mlops/azureml/train/train-env.yml
-      conda_file: Basic_job/environment/train-conda.yml
-    secrets:
-      creds: ${{secrets.AZURE_CREDENTIALS}}
+  # register-environment:
+  #   needs: get-config
+  #   uses: Azure/mlops-templates/.github/workflows/register-environment.yml@main
+  #   with:
+  #     resource_group: ${{ needs.get-config.outputs.resource_group }}
+  #     workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+  #     environment_file: mlops/azureml/train/train-env.yml
+  #     conda_file: Basic_job/environment/train-conda.yml
+  #   secrets:
+  #     creds: ${{secrets.AZURE_CREDENTIALS}}
   # register-dataset:
   #   needs: get-config
   #   uses: Azure/mlops-templates/.github/workflows/register-dataset.yml@main
@@ -57,13 +57,13 @@ jobs:
   #     workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
   #   secrets:
   #     creds: ${{secrets.AZURE_CREDENTIALS}}
-  # run-model-training-pipeline:
-  #   needs: [get-config, register-environment] #register-dataset, create-compute]
-  #   uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
-  #   with:
-  #     resource_group: ${{ needs.get-config.outputs.resource_group }}
-  #     workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
-  #     parameters-file: mlops/azureml/train/basic_pipeline.yml
-  #     job-name: test
-  #   secrets:
-  #     creds: ${{secrets.AZURE_CREDENTIALS}}
+  run-model-training-pipeline:
+    needs: [get-config] #, register-environment] #register-dataset, create-compute]
+    uses: Azure/mlops-templates/.github/workflows/run-pipeline.yml@main
+    with:
+      resource_group: ${{ needs.get-config.outputs.resource_group }}
+      workspace_name: ${{ needs.get-config.outputs.aml_workspace }}
+      parameters-file: mlops/azureml/train/basic_pipeline.yml
+      job-name: test
+    secrets:
+      creds: ${{secrets.AZURE_CREDENTIALS}}
