@@ -23,7 +23,7 @@ description: Basic Training Pipeline
 # <jobs>
 settings:
   default_datastore: azureml:workspaceblobstore
-  default_compute: azureml:tcpu-cluster
+  default_compute: azureml:cpu-cluster
   continue_on_step_failure: false
 
 jobs:
